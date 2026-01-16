@@ -1,0 +1,19 @@
+diff --git a/node_modules/cephes/cephes-wrapper.js b/node_modules/cephes/cephes-wrapper.js
+index a492838..75ca926 100644
+--- a/node_modules/cephes/cephes-wrapper.js
++++ b/node_modules/cephes/cephes-wrapper.js
+@@ -1,5 +1,13 @@
+ 
+-const fs = require('fs');
++let fs;
++
++try {
++  fs = require('fs');
++} catch {
++  if (typeof self !== 'undefined') {
++    self.Buffer = self.Buffer || require('buffer').Buffer;
++  }
++}
+ 
+ const TOTAL_STACK = 1024 * 1024; // 1MB
+ const TOTAL_MEMORY = 2 * 1024 * 1024; // 1MB

@@ -1,0 +1,78 @@
+{
+  "name": "influence-assets-client",
+  "buildpacks": [
+    {
+      "url": "https://github.com/mars/create-react-app-buildpack.git"
+    }
+  ],
+  "env": {
+    "REACT_APP_API_URL": {
+      "description": "Base URL of the Influence API server, does not include trailing slash",
+      "required": true
+    },
+    "REACT_APP_IMAGES_URL": {
+      "description": "Base URL of the Influence images server, does not include trailing slash",
+      "required": true
+    },
+    "REACT_APP_ETH_CHAIN_ID": {
+      "description": "Chain ID for appropriate chain (1 = Mainnet, 4 = Rinkeby, 5 = Goerli, 11155111 = Sepolia, 1337 = ganache)",
+      "required": true
+    },
+    "REACT_APP_STARKNET_CHAIN_ID": {
+      "description": "Chain ID for appropriate starknet network",
+      "required": true
+    },
+    "REACT_APP_STARKNET_PROVIDER": {
+      "description": "Base url for appropriate starknet network (specified by browser extension)",
+      "required": true
+    },
+    "REACT_APP_INFURA_ID": {
+      "required": true
+    },
+    "REACT_APP_ETHEREUM_ARVAD_CREWMATE_SALE": {
+      "required": true
+    },
+    "REACT_APP_ETHEREUM_ASTEROID_BRIDGE": {
+      "required": true
+    },
+    "REACT_APP_ETHEREUM_CREW_BRIDGE": {
+      "required": false
+    },
+    "REACT_APP_ETHEREUM_CREWMATE_BRIDGE": {
+      "required": true
+    },
+    "REACT_APP_ETHEREUM_CREWMATE_FEATURES": {
+      "required": true
+    },
+    "REACT_APP_ETHEREUM_SHIP_BRIDGE": {
+      "required": false
+    },
+    "REACT_APP_ETHEREUM_SWAY_GOVERNOR": {
+      "required": true
+    },
+    "REACT_APP_ETHEREUM_SWAY_TOKEN": {
+      "required": true
+    },
+    "REACT_APP_STARKNET_ASTEROID_TOKEN": {
+      "required": true
+    },
+    "REACT_APP_STARKNET_CREW_TOKEN": {
+      "required": false
+    },
+    "REACT_APP_STARKNET_CREWMATE_TOKEN": {
+      "required": true
+    },
+    "REACT_APP_STARKNET_SHIP_TOKEN": {
+      "required": false
+    },
+    "REACT_APP_CLOUDFRONT_IMAGE_URL": {
+      "required": true
+    },
+    "REACT_APP_ARGENT_WEB_WALLET_URL": {
+      "required": true
+    },
+    "REACT_APP_WALLETCONNECT_PROJECT_ID": {
+      "required": true
+    }
+  }
+}
