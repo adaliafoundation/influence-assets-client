@@ -8,6 +8,7 @@ import { Address, starknetContracts } from '@influenceth/sdk';
 
 import useStore from '~/hooks/useStore';
 import api from '~/lib/api';
+import { starknet as starknetChain } from '~/lib/blockchain/chain';
 import { assetMappings } from '~/lib/assets';
 
 const RETRY_INTERVAL = 10e3; // 10 seconds
@@ -28,8 +29,8 @@ const getErrorMessage = (error) => {
 };
 
 const isAllowedChain = (chain) => {
-  return resolveChainId(chain) === resolveChainId(process.env.REACT_APP_STARKNET_CHAIN_ID);
-}
+  return resolveChainId(chain) === resolveChainId(starknetChain.chainId);
+};
 
 const ready = true;
 const useL2Wallet = () => {
@@ -58,15 +59,7 @@ const useL2Wallet = () => {
     [starknet?.address, starknetUpdated]
   );
 
-  const provider = useMemo(() => {
-    let nodeUrl = process.env.REACT_APP_STARKNET_PROVIDER;
-
-    if (process.env.REACT_APP_STARKNET_PROVIDER_BACKUP && Math.random() > 0.5) {
-      nodeUrl = process.env.REACT_APP_STARKNET_PROVIDER_BACKUP;
-    }
-
-    return new RpcProvider({ nodeUrl });
-  }, []);
+  const provider = useMemo(() => new RpcProvider({ nodeUrl: starknetChain.providerUrl }), []);
 
   const onConnectionResult = useCallback((newAccount, newAddress) => {
     setConnecting(false);
@@ -117,10 +110,10 @@ const useL2Wallet = () => {
           try {
             await wallet.request({
               type: 'wallet_switchStarknetChain',
-              params: { chainId: process.env.REACT_APP_CHAIN_ID }
+              params: { chainId: starknetChain.chainId }
             });
           } catch (e) { // (standardize error message here since different between wallets)
-            throw new Error(`Incorrect chain, please switch to ${resolveChainId(process.env.REACT_APP_CHAIN_ID)}`);
+            throw new Error(`Incorrect chain, please switch to ${resolveChainId(starknetChain.chainId)}`);
           }
 
           await attemptConnection(true);
@@ -212,7 +205,7 @@ const useL2Wallet = () => {
 
   const isAcceptedOnL1 = useCallback((status) => {
     return status === 'ACCEPTED_ON_L1'
-      || (status === 'ACCEPTED_ON_L2' && process.env.REACT_APP_STARKNET_PROVIDER.includes('localhost'))
+      || (status === 'ACCEPTED_ON_L2' && starknetChain.isDevnet)
   }, []);
 
   const onErrorDefault = useCallback((e, vars, duration) => {
@@ -229,7 +222,6 @@ const useL2Wallet = () => {
     return {
       'ESTIMATE_L1_L2_MESSAGE_FEE': {
         call: ({ l1Address, l2Address, entrypoint, payload }) => {
-          const provider = new RpcProvider({ nodeUrl: process.env.REACT_APP_STARKNET_PROVIDER });
           return provider.estimateMessageFee({
             from_address: l1Address,
             to_address: l2Address,
@@ -357,6 +349,7 @@ const useL2Wallet = () => {
     dispatchBridgingPending,
     dispatchL2L1TxStatus,
     onErrorDefault,
+    provider,
     starknet,
     starknetUpdated
   ]);

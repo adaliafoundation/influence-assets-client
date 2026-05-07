@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Address, Entity } from '@influenceth/sdk';
+import { starknet as starknetChain } from '~/lib/blockchain/chain';
 
 const config = { baseURL: process.env.REACT_APP_API_URL };
 const instance = axios.create(config);
@@ -34,8 +35,8 @@ const getEntities = async ({ ids, match, label, components }) => {
 const api = {
 
   flushDevnetMessagesAsNeeded: async () => {
-    if (process.env.REACT_APP_STARKNET_PROVIDER.includes('localhost')) {
-      const response = await instance.post(`/postman/flush`, {}, { baseURL: process.env.REACT_APP_STARKNET_PROVIDER });
+    if (starknetChain.isDevnet) {
+      const response = await instance.post(`/postman/flush`, {}, { baseURL: starknetChain.providerUrl });
       return response.data;
     }
     return {};

@@ -1,23 +1,29 @@
-
-const getInfuraUrlFor = (network) =>
-  process.env.REACT_APP_INFURA_ID ? `https://${network}.infura.io/v3/${process.env.REACT_APP_INFURA_ID}` : undefined
-
-const getAlchemyUrlFor = (network) =>
-  process.env.REACT_APP_ALCHEMY_ID ? `https://${network}.alchemyapi.io/v2/${process.env.REACT_APP_ALCHEMY_ID}` : undefined
+const ethereumChainId = Number(process.env.REACT_APP_ETH_CHAIN_ID);
 
 const chains = {
   1: {
-    urls: [getInfuraUrlFor('mainnet'), getAlchemyUrlFor('eth-mainnet'), 'https://cloudflare-eth.com'].filter(Boolean),
     name: 'Ethereum Mainnet',
   },
   5: {
-    urls: [getInfuraUrlFor('goerli')].filter(Boolean),
     name: 'Goerli Test Network',
   },
   11155111: {
-    urls: [ getInfuraUrlFor('sepolia')].filter(Boolean),
     name: 'Sepolia Test Network',
+  },
+  1337: {
+    name: 'Local Test Network',
   }
-}
+};
 
-export default chains[process.env.REACT_APP_ETH_CHAIN_ID];
+export const starknet = {
+  chainId: process.env.REACT_APP_STARKNET_CHAIN_ID,
+  isDevnet: process.env.REACT_APP_STARKNET_PROVIDER?.includes('localhost') || false,
+  providerUrl: process.env.REACT_APP_STARKNET_PROVIDER,
+};
+
+export default {
+  chainHex: Number.isFinite(ethereumChainId) ? `0x${ethereumChainId.toString(16)}` : undefined,
+  chainId: ethereumChainId,
+  name: chains[ethereumChainId]?.name || `Chain ${process.env.REACT_APP_ETH_CHAIN_ID}`,
+  providerUrl: process.env.REACT_APP_ETHEREUM_PROVIDER,
+};

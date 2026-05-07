@@ -26,7 +26,8 @@
       "description": "Base url for appropriate starknet network (specified by browser extension)",
       "required": true
     },
-    "REACT_APP_INFURA_ID": {
+    "REACT_APP_ETHEREUM_PROVIDER": {
+      "description": "Base url for appropriate Ethereum RPC provider",
       "required": true
     },
     "REACT_APP_ETHEREUM_ARVAD_CREWMATE_SALE": {

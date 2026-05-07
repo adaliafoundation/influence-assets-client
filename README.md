@@ -17,9 +17,9 @@ The licensor considers non-commercial use under this license to include deployme
     REACT_APP_API_URL=http://localhost:3001
     REACT_APP_IMAGES_URL=http://localhost:3001
     REACT_APP_ETH_CHAIN_ID=1337
+    REACT_APP_ETHEREUM_PROVIDER=http://localhost:8545
     REACT_APP_STARKNET_PROVIDER=http://localhost:9000
     REACT_APP_CLOUDFRONT_IMAGE_URL=
-    REACT_APP_INFURA_ID=
 
 
     REACT_APP_ETHEREUM_SWAY_GOVERNOR=

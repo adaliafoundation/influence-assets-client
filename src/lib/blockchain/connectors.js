@@ -11,7 +11,7 @@ const connectionsToMake = {
     Connector: CoinbaseWallet,
     params: {
       options: {
-        url: chain.urls[0],
+        url: chain.providerUrl,
         appName: 'web3-react',
       }
     }
@@ -27,7 +27,7 @@ const connectionsToMake = {
     params: {
       options: {
         projectId: process.env.REACT_APP_WALLETCONNECT_PROJECT_ID,
-        chains: [process.env.REACT_APP_ETH_CHAIN_ID],
+        chains: [chain.chainId],
         // optionalChains,
         showQrModal: true,
       }
