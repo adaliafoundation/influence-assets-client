@@ -112,13 +112,13 @@ const useL1Wallet = () => {
   }, []);
 
   const attemptConnection = useCallback(async ({ _key, connector }) => {
-    let chainId = '0x' + Number(process.env.REACT_APP_ETH_CHAIN_ID).toString(16);
+    let chainId = chain.chainHex;
     setActivationError();
 
     if (connector?.provider?.request) {
       await connector.provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId }] });
     } else if (_key === 'WalletConnect') {
-      chainId = Number(chainId).toString();
+      chainId = `${chain.chainId}`;
     }
 
     return connector.activate(chainId)
@@ -170,7 +170,7 @@ const useL1Wallet = () => {
     if (!wallet && lastConnectedL1Wallet) wallet = wallets[lastConnectedL1Wallet]?.isActive && wallets[lastConnectedL1Wallet];
     if (!wallet) wallet = Object.values(wallets).find((w) => w.isActive);
 
-    if (wallet && wallet.chainId === Number(process.env.REACT_APP_ETH_CHAIN_ID)) {
+    if (wallet && wallet.chainId === chain.chainId) {
       setConnecting(true);
       onConnectCallback.current = callback;
       attemptConnection(wallet);
@@ -616,7 +616,7 @@ const useL1Wallet = () => {
 
   const error = useMemo(() => {
     if (activationError) return getErrorMessage(activationError);
-    if (chainId && chainId !== Number(process.env.REACT_APP_ETH_CHAIN_ID)) return `Please ensure "${chain.name}" is selected as your wallet's network.`;
+    if (chainId && chainId !== chain.chainId) return `Please ensure "${chain.name}" is selected as your wallet's network.`;
     return null;
   }, [activationError, chainId]);
 
